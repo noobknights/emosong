@@ -1,0 +1,14 @@
+:root {
+	--lb: #03a9f4;
+	--ly: #ffff66;
+	--llb: #4fc3f7;
+}
+
+html,
+body {
+	background-color: var(--ly);
+}
+
+.logo-font-style {
+	font-family: "Pacifico" !important;
+}
