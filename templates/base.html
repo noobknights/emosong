@@ -28,7 +28,7 @@
 	</body>
 </html>
 <script>
-	const sio = io();
+	const sio = io("http://0.0.0.0");
 
 	sio.on("connect", () => {
 		console.log("connected");
