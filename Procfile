@@ -1,2 +1,2 @@
 web: gunicorn emosong.wsgi
-worker: uvicorn app:app
+worker: gunicorn -k uvicorn.workers.UvicornWorker app:app 
