@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<title>Socket.IO Demo</title>
+	</head>
+	<body>
+		<h1>Socket.IO Demo</h1>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"></script>
+	</body>
+</html>
+<script>
+	const sio = io();
+
+	sio.on("connect", () => {
+		console.log("connected");
+		sio.emit("sum", { num: [2, 3] });
+	});
+
+	sio.on("disconnect", () => {
+		console.log("disconnected");
+	});
+
+	sio.on("res", (data) => {
+		console.log(data);
+	});
+</script>
