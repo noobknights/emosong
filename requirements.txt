@@ -9,3 +9,4 @@ aiohttp==3.7.3
 uvicorn[standard]==0.13.3
 daphne==3.0.1
 channels==3.0.3
+django-cors-headers==3.7.0
