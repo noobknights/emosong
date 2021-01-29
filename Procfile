@@ -1,2 +1,2 @@
-web: gunicorn -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT app:app
 web: gunicorn emosong.wsgi
+web: daphne emosong.asgi:application --port $PORT --bind 0.0.0.0
