@@ -1,2 +1,2 @@
 web: gunicorn emosong.wsgi
-web: uvicorn --port 8001  app:app
+web: uvicorn --host $PROD_HOST --port 8001  app:app
