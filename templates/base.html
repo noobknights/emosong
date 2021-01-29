@@ -27,3 +27,20 @@
 		</div>
 	</body>
 </html>
+<script>
+	const sio = io("http://127.0.0.1:5000/");
+
+	sio.on("connect", () => {
+		console.log("connected");
+		sio.emit("message", "Hello");
+	});
+
+	sio.on("disconnect", () => {
+		console.log("disconnected");
+	});
+
+	sio.on("message", (data) => {
+		console.log("messaged");
+		console.log(data);
+	});
+</script>
