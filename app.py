@@ -19,4 +19,4 @@ async def message(sid, data):
 async def disconnect(sid):
     print('disconnected: ', sid)
 
-app = __import__(app)
+chatapp = __import__('app')

@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/
 
 import os
 import django
-from app import app
+from app import chatapp
 from django.core.asgi import get_asgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emosong.settings')
 django.setup()
-application = app
+application = chatapp
