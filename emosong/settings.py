@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
     'corsheaders',
+    'emosong.app'
 ]
 
 MIDDLEWARE = [

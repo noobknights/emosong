@@ -18,5 +18,3 @@ async def message(sid, data):
 @sio.event
 async def disconnect(sid):
     print('disconnected: ', sid)
-
-chatapp = __import__('app')
