@@ -12,14 +12,14 @@
 
 	sio.on("connect", () => {
 		console.log("connected");
-		sio.emit("sum", { num: [2, 3] });
+		sio.emit("message", { num: [2, 3] });
 	});
 
 	sio.on("disconnect", () => {
 		console.log("disconnected");
 	});
 
-	sio.on("res", (data) => {
+	sio.on("message", (data) => {
 		console.log(data);
 	});
 </script>
