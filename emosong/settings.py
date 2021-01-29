@@ -78,7 +78,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'emosong.wsgi.application'
-ASGI_APPLICATION = 'app.app'
+ASGI_APPLICATION = 'emosong.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
