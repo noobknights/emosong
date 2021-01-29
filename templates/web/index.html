@@ -1,1 +1,37 @@
-{% extends 'base.html' %} {% block content %} {% endblock %}
+{% extends 'base.html' %} {% block content %}
+
+<div>
+	<form id="newuserform" action="/main" method="POST">
+		{% csrf_token %}
+		<input
+			id="username"
+			class="form-control input-lg"
+			type="text"
+			placeholder="What's Your Name?"
+			name="username"
+		/>
+		<input type="hidden" name="imagedata" id="imagedata" />
+		<button type="submit" id="start" class="btn btn-info btn-lg">Its Me</button>
+	</form>
+</div>
+<script>
+	var ready = false;
+	$("#username").on("input", function () {
+		window.userName = $(this).val();
+		console.log($(this).val());
+	});
+
+	$("#newuserform").submit(function (e) {
+		if (!ready) {
+			e.preventDefault();
+			startbutton.click();
+			$("#imagedata").val(imageData);
+			if ($("#username").val() !== "") {
+				ready = true;
+				$(this).submit();
+			}
+			ready = false;
+		}
+	});
+</script>
+{% endblock %}
