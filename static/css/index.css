@@ -1,0 +1,20 @@
+:root {
+	--lb: #03a9f4;
+	--ly: #ffff66;
+	--llb: #4fc3f7;
+	--mb: #3b3e3f;
+}
+
+html,
+body {
+	height: 100%;
+	background-color: var(--ly);
+}
+
+.logo-font-style {
+	font-family: "Pacifico" !important;
+}
+
+.hide {
+	display: none !important;
+}

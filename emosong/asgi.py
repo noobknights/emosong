@@ -8,9 +8,10 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/
 """
 
 import os
-
+import django
+from emosong.app import app
 from django.core.asgi import get_asgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emosong.settings')
-
-application = get_asgi_application()
+django.setup()
+application = app
