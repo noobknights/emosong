@@ -15,3 +15,6 @@ def index(request):
     test = os.getenv('ENV')
     print(test)
     return render(request, 'web/index.html', {'test':test})    
+
+def video(request):
+    return render(request, 'web/video.html')
