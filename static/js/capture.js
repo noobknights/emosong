@@ -5,7 +5,7 @@ var imageData = '';
 	// width to the value defined here, but the height will be
 	// calculated based on the aspect ratio of the input stream.
 
-	var width = 500; // We will scale the photo width to this
+	var width = window.screen.availWidth; // We will scale the photo width to this
 	var height = 0; // This will be computed based on the input stream
 
 	// |streaming| indicates whether or not we're currently streaming

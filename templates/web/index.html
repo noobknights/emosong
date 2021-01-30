@@ -1,6 +1,7 @@
-{% extends 'base.html' %} {% block content %}
-
-<div>
+{% extends 'base.html' %} {% block content %} {% load static %}
+<br />
+<img height="200px" src="{% static 'icons/logo.gif' %}" alt="Logo" />
+<div class="d-flex justify-content-center">
 	<form id="newuserform" action="/main" method="POST">
 		{% csrf_token %}
 		<input
@@ -9,9 +10,17 @@
 			type="text"
 			placeholder="What's Your Name?"
 			name="username"
+			style="font-size: 40px; min-width: 500px; max-width: 500px"
 		/>
 		<input type="hidden" name="imagedata" id="imagedata" />
-		<button type="submit" id="start" class="btn btn-info btn-lg">Its Me</button>
+		<button
+			style="font-size: 40px; border: 1px"
+			type="submit"
+			id="start"
+			class="btn btn-lg mt-1 lb-txt"
+		>
+			Its Me
+		</button>
 	</form>
 </div>
 <script>

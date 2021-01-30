@@ -7,7 +7,6 @@
 
 html,
 body {
-	height: 100%;
 	background-color: var(--ly);
 }
 
@@ -17,4 +16,11 @@ body {
 
 .hide {
 	display: none !important;
+}
+
+.mb-txt {
+	color: var(--mb) !important;
+}
+.lb-txt {
+	color: var(--lb) !important;
 }
