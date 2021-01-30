@@ -21,31 +21,10 @@
 		<title>Emosong</title>
 	</head>
 	<body>
-		{% include 'web/nav.html' %}
+		{% include 'web/nav.html' %} {% include 'web/video.html' %}
+		<script src="{% static 'js/chat.js' %}"></script>
 		<div class="container-fluid">
 			<div class="text-center">{% block content %} {% endblock %}</div>
 		</div>
-		{% include 'web/video.html' %}
 	</body>
 </html>
-<script>
-	const sio = io("http://127.0.0.1:5000/");
-
-	sio.on("connect", () => {
-		console.log("connected");
-		if (userName) {
-			sio.emit("message", userName);
-		}
-	});
-
-	sio.on("disconnect", () => {
-		console.log("disconnected");
-	});
-
-	sio.on("message", (data) => {
-		if (userName) {
-			console.log("messaged");
-			console.log(data);
-		}
-	});
-</script>
