@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
-<div class="row">
+<div class="row d-flex">
 	<div class="vh-100 col-md-6 col-12">
 		<h1 class="display-4">
 			Hey <span class="lb-txt">{{username}}</span> <br />
@@ -9,25 +9,45 @@
 		<iframe
 			src="https://open.spotify.com/embed/playlist/37i9dQZF1DXaXB8fQg7xif"
 			width="100%"
-			height="700"
+			style="max-height: 500px; height: 100%"
 			frameborder="0"
 			allowtransparency="true"
 			allow="encrypted-media"
 			id="songbox"
 		></iframe>
 	</div>
-	<!-- <br /><br /><br /> -->
-	<div class="col-md-6 col-12 vh-100">
-		<div></div>
-		<input type="text" placeholder="Enter Message" name="" id="" />
+	<div class="col-md-6 col-12 p-1 d-flex flex-column" style="height: 90vh">
+		<div
+			class="w-100 h-100 d-flex flex-column text-left"
+			style="justify-content: flex-end"
+			id="chatarea"
+		>
+			<!-- <kbd class="text-primary f25">Hello</kbd>
+			<kbd class="text-light f25">Hello</kbd> -->
+		</div>
+		<div class="d-flex">
+			<input
+				type="text"
+				class="form-control form-control-lg"
+				placeholder="Enter Message"
+				name="chatinput"
+				id="chatinput"
+			/>
+			<button class="btn btn-light btn-lg">Send</button>
+		</div>
 	</div>
 </div>
 <script>
 	var songs = JSON.parse("{{song|escapejs}}");
+	userName = "{{username}}";
+	var toAppend =
+		"<kbd class='text-success'><h1>Welcome! " + userName + "</h1></kbd>";
 	console.log(songs);
 	songs = songs["playlists"]["items"][0]["external_urls"]["spotify"];
 	songs = songs.split(".com");
 	songs = songs[0] + ".com/embed" + songs[1];
 	$("#songbox").attr("src", songs);
+	console.log($("#chatarea").html());
+	$("#chatarea").append(toAppend);
 </script>
 {% endblock %}

@@ -24,3 +24,24 @@ body {
 .lb-txt {
 	color: var(--lb) !important;
 }
+
+#username {
+	font-size: 40px;
+	max-width: 500px;
+	border: 1px solid var(--lb);
+}
+
+#start {
+	font-size: 40px;
+	border: 1px solid var(--lb);
+	color: var(--lb);
+}
+#start:hover {
+	transition: ease-in-out;
+	background-color: var(--lb);
+	color: var(--ly);
+}
+
+.f25 {
+	font-size: 25px;
+}
