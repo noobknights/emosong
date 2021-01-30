@@ -1,0 +1,47 @@
+:root {
+	--lb: #03a9f4;
+	--ly: #ffff66;
+	--llb: #4fc3f7;
+	--mb: #3b3e3f;
+}
+
+html,
+body {
+	background-color: var(--ly);
+}
+
+.logo-font-style {
+	font-family: "Pacifico" !important;
+}
+
+.hide {
+	display: none !important;
+}
+
+.mb-txt {
+	color: var(--mb) !important;
+}
+.lb-txt {
+	color: var(--lb) !important;
+}
+
+#username {
+	font-size: 40px;
+	max-width: 500px;
+	border: 1px solid var(--lb);
+}
+
+#start {
+	font-size: 40px;
+	border: 1px solid var(--lb);
+	color: var(--lb);
+}
+#start:hover {
+	transition: ease-in-out;
+	background-color: var(--lb);
+	color: var(--ly);
+}
+
+.f25 {
+	font-size: 25px;
+}
