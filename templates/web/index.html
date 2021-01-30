@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
-<br />
-<img height="200px" src="{% static 'icons/logo.gif' %}" alt="Logo" />
+<span></span>
+{% include 'web/corosal.html' %}
+<!-- <img height="200px" src="{% static 'icons/logo.gif' %}" alt="Logo" /> -->
 <div class="d-flex justify-content-center">
 	<form id="newuserform" action="/main" method="POST">
 		{% csrf_token %}

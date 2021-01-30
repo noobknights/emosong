@@ -1,10 +1,11 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 <h1 class="display-4">
 	Hey <span class="lb-txt">{{username}}</span> <br />
-	Wanna Listen Some... {{emotion}}
+	Your emotion was detected to be {{emotion}}
 </h1>
 <div class="row d-flex">
 	<div class="vh-100 col-md-6 col-12 p-1">
+		<img src="{% static 'icons/song.gif' %}" height="100px" />
 		<iframe
 			src="https://open.spotify.com/embed/playlist/37i9dQZF1DXaXB8fQg7xif"
 			width="100%"
@@ -15,40 +16,81 @@
 			id="songbox"
 		></iframe>
 	</div>
-	<div class="col-md-6 col-12 p-1 d-flex flex-column vh-100">
+	<div class="vh-100 col-md-6 col-12 p-1 d-flex flex-column">
+		<img src="{% static 'icons/chat.gif' %}" width="100px" />
 		<div
 			class="w-100 h-100 d-flex flex-column text-left"
 			style="overflow-y: scroll"
 			id="chatarea"
-		></div>
+		>
+			<span class="display-4"> Chats Here </span>
+		</div>
 		<div class="d-flex">
-			<input
-				type="text"
-				class="form-control form-control-lg"
-				placeholder="Enter Message"
-				name="chatinput"
-				id="chatinput"
-			/>
+			<div class="input-group input-group-lg">
+				<input
+					type="text"
+					class="form-control p-5 f25"
+					name="chatinput"
+					placeholder="Enter Message"
+					id="chatinput"
+				/>
+			</div>
 			<button id="sendmsg" class="btn btn-light btn-lg">Send</button>
 		</div>
 	</div>
 </div>
 <script>
+	sio = io("http://127.0.0.1:5000/");
+
 	var songs = JSON.parse("{{song|escapejs}}");
 	userName = "{{username}}";
 	var sid = "";
-	var toAppend =
-		"<kbd class='text-success'><h1>Welcome! " + userName + "</h1></kbd>";
+
 	console.log(songs);
 	songs = songs["playlists"]["items"][0]["external_urls"]["spotify"];
 	songs = songs.split(".com");
 	songs = songs[0] + ".com/embed" + songs[1];
 	$("#songbox").attr("src", songs);
 
-	$("#sendmsg").click(function () {
+	sio.on("intro", (data) => {
+		console.log(data);
+		sid = data["sid"];
+	});
+
+	sio.on("message", (data) => {
+		if (data["type"] == "message") {
+			if (data["sid"] != sid) {
+				var newMsg =
+					"<kbd class='text-warning'>" +
+					data["username"] +
+					": " +
+					data["message"] +
+					"</kbd>";
+				$("#chatarea").append(newMsg);
+			}
+		} else if (data["type"] == "intro") {
+			if (data["sid"] != sid) {
+				var introMsg =
+					"<kbd class='text-success'><h1>Everyone Welcome! " +
+					data["username"] +
+					"</h1></kbd>";
+			} else {
+				var introMsg =
+					"<kbd class='text-success'><h1>Welcome! " +
+					data["username"] +
+					"</h1></kbd>";
+			}
+			$("#chatarea").append(introMsg);
+		}
+	});
+
+	$("#sendmsg").on("click", function () {
 		var msg = $("#chatinput").val();
+		console.log(msg.trim());
 		if (msg.trim()) {
-			sio.emit("message", { type: "message", data: msg, sid: sid });
+			console.log(msg);
+			var introMsg = "<kbd class='text-success'>You: " + msg + "</kbd>";
+			$("#chatarea").append(introMsg);
 		}
 	});
 </script>

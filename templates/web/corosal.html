@@ -1,0 +1,29 @@
+{% load static %}
+<div class="container d-flex justify-content-center" style="height: 350px">
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner h-100">
+			<div class="item active">
+				<img src="{% static 'icons/amazed.svg' %}" style="width: 300px" />
+			</div>
+			<div class="item">
+				<img src="{% static 'icons/cheerful.svg' %}" style="width: 300px" />
+			</div>
+			<div class="item">
+				<img src="{% static 'icons/comfortable.svg' %}" style="width: 300px" />
+			</div>
+			<div class="item">
+				<img src="{% static 'icons/annoyed.svg' %}" style="width: 300px" />
+			</div>
+			<div class="item">
+				<img src="{% static 'icons/crying.svg' %}" style="width: 300px" />
+			</div>
+			<div class="item">
+				<img src="{% static 'icons/disgusted.svg' %}" style="width: 300px" />
+			</div>
+		</div>
+	</div>
+</div>
+<br />
+<script>
+	$("#myCarousel").carousel({ interval: 500 });
+</script>

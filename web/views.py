@@ -47,7 +47,6 @@ def main(request):
 def getsong(category):
 	songDict={'angry':'hardstyle','disgust':'heavy-metal','fear':'soul','happy':'acoustic','sad':'groove','surprise':'edm','relax':'afrobeat'}
 	category = songDict[category]
-	category = 'party'
 	url = "https://api.spotify.com/v1/browse/categories/"+str(category)+"/playlists"
 	headers = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer "+str(os.getenv('TOKEN'))}
 	response = requests.request("GET", url, headers=headers, data={})

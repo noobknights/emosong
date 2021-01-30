@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 from pathlib import Path
+import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import tensorflow as tf
@@ -26,15 +27,13 @@ def image(path):
 		print("height",h)
 		img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 		roi = img[y:y+h, x:x+w]
-		resized = cv2.resize(roi,(48,48))    
+		resized = cv2.resize(roi,(48,48))   
+ 
 	try:
 		resized = resized[:, :, 1]
 		resized = resized.reshape(1,48,48,1)
 		emotion = np.argmax(final_model.predict(resized))
+		plt.imshow(resized[0,:,:,0])
 		return emotion
 	except:
 		return -1
-
-
-
-

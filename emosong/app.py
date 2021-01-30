@@ -7,12 +7,12 @@ app = socketio.ASGIApp(sio)
 @sio.event
 async def connect(sid, environ):
     print('connected:', sid)
-    await sio.emit('reply', {'type':'intro','sid':sid})
+    await sio.emit('message',{'type':'intro','sid':sid})
 
 @sio.event
 async def message(sid, data):
     print('message:', data)
-    await sio.emit('reply',  {'type':'newmsg','data':data, 'sid':sid})
+    await sio.emit('messsage',{'type':'message','sid':sid,'message':data})
 
 @sio.event
 async def disconnect(sid):
