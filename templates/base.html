@@ -17,16 +17,15 @@
 			href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
 			rel="stylesheet"
 		/>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"></script>
 		{% load static %}
 		<link rel="stylesheet" href="{% static 'css/index.css' %}" />
 		<title>Emosong</title>
 	</head>
 	<body>
 		{% include 'web/nav.html' %} {% include 'web/video.html' %}
-		<script src="{% static 'js/chat.js' %}"></script>
-		<div class="container-fluid">
+		<div class="container-fluid" style="min-height: 750px">
 			<div class="text-center">{% block content %} {% endblock %}</div>
 		</div>
+		{% include 'web/footer.html' %}
 	</body>
 </html>

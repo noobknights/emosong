@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-center">
+	<form id="newuserform" action="/main" method="POST">
+		{% csrf_token %}
+		<input
+			id="username"
+			class="form-control input-lg rounded-0"
+			type="text"
+			placeholder="What's Your Name?"
+			name="username"
+		/>
+		<input type="hidden" name="imagedata" id="imagedata" />
+		<button type="submit" id="start" class="btn btn-lg mt-3 rounded-0">
+			Its Me
+		</button>
+	</form>
+</div>
+<script>
+	var userName = "";
+	var ready = false;
+	$("#username").on("input", function () {
+		window.userName = $(this).val();
+		console.log($(this).val());
+	});
+
+	$("#newuserform").submit(function (e) {
+		if (!ready) {
+			e.preventDefault();
+			startbutton.click();
+			$("#imagedata").val(imageData);
+			if ($("#username").val() !== "") {
+				ready = true;
+				$(this).submit();
+			}
+			ready = false;
+		}
+	});
+</script>

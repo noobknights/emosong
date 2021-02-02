@@ -1,97 +1,134 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
-<h1 class="display-4">
-	Hey <span class="lb-txt">{{username}}</span> <br />
-	Your emotion was detected to be {{emotion}}
-</h1>
-<div class="row d-flex">
-	<div class="vh-100 col-md-6 col-12 p-1">
-		<img src="{% static 'icons/song.gif' %}" height="100px" />
-		<iframe
-			src="https://open.spotify.com/embed/playlist/37i9dQZF1DXaXB8fQg7xif"
-			width="100%"
-			style="height: 100%"
-			frameborder="0"
-			allowtransparency="true"
-			allow="encrypted-media"
-			id="songbox"
-		></iframe>
-	</div>
-	<div class="vh-100 col-md-6 col-12 p-1 d-flex flex-column">
-		<img src="{% static 'icons/chat.gif' %}" width="100px" />
-		<div
-			class="w-100 h-100 d-flex flex-column text-left"
-			style="overflow-y: scroll"
-			id="chatarea"
-		>
-			<span class="display-4"> Chats Here </span>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"></script>
+
+<div class="mb-5">
+	<h1 class="display-4">
+		Hey <span class="lb-txt">{{username}}</span> <br />
+		Your emotion was detected to be <br />
+		<img src="{% static 'icons/emotion/' %}{{emotion}}.svg" width="150px" />
+		<h2 class="lb-txt logo-font-style">{{emotion}}</h2>
+	</h1>
+</div>
+
+<div class="d-flex justify-content-center">
+	<div class="row w-100" style="max-width: 800px">
+		<div class="col-6 p-1">
+			<img src="{% static 'icons/song.gif' %}" height="100px" />
+			<br />
+			<h2 class="logo-font-style">Listen Some Music</h2>
+			<hr class="w-25 border border-dark mb-3" />
 		</div>
-		<div class="d-flex">
-			<div class="input-group input-group-lg">
+		<div class="col-6 p-1">
+			<img src="{% static 'icons/chat.gif' %}" width="100px" />
+			<h2 class="logo-font-style">Talk to other users</h2>
+			<hr class="w-25 border border-dark" />
+		</div>
+		<div class="col-12 p-1 w-100">
+			<div id="chatmsgs" class="f25 d-flex flex-column-reverse">
+				<h1 class="logo-font-style h-50">
+					Welcome to emosong :) <br />
+					Send some message.
+				</h1>
+			</div>
+			<div class="d-flex">
 				<input
 					type="text"
-					class="form-control p-5 f25"
+					class="p-2 f25 w-100"
 					name="chatinput"
 					placeholder="Enter Message"
 					id="chatinput"
 				/>
+				<button id="sendmsg" class="btn btn-lg p-0 ml-1">
+					<img src="{% static 'icons/send.svg' %}" height="50px" />
+				</button>
 			</div>
-			<button id="sendmsg" class="btn btn-light btn-lg">Send</button>
 		</div>
 	</div>
 </div>
-<script>
-	sio = io("http://127.0.0.1:5000/");
 
-	var songs = JSON.parse("{{song|escapejs}}");
+<div>
+	<!-- <iframe
+		src="https://open.spotify.com/embed/playlist/37i9dQZF1DXaXB8fQg7xif"
+		width="100%"
+		style="height: 100%"
+		frameborder="0"
+		allowtransparency="true"
+		allow="encrypted-media"
+		id="songbox"
+	></iframe> -->
+</div>
+
+<script>
 	userName = "{{username}}";
-	var sid = "";
+
+	//chat area
+	let sio = io("http://127.0.0.1:5000/");
+	let sid = "";
+
+	sio.on("connect", () => {
+		console.log("connected");
+	});
+
+	sio.on("disconnect", () => {
+		console.log("disconnected");
+	});
+
+	sio.on("message", (data) => {
+		if (data.type == "me") {
+			console.log({ me: data });
+			sio.emit("newuser", { username: userName });
+		} else if (data.type == "newuser") {
+			let newuserMsg =
+				"<div class='w-100'><h2>Welcome, " + data.data.username + "</h2></div>";
+			messageFormat(newuserMsg, "Everyone");
+			console.log({ newuser: data });
+		} else if (data.type == "message") {
+			messageFormat(data.data.message, data.data.username);
+			console.log({ newmessage: data });
+		}
+	});
+
+	$("#sendmsg").click(function () {
+		sio.emit("message", { username: userName, message: $("#chatinput").val() });
+		messageFormat($("#chatinput").val(), "me");
+		$("#chatinput").val("");
+	});
+
+	function messageFormat(msg, user) {
+		if (document.querySelector("#chatmsgs h1")) {
+			$("#chatmsgs").html("");
+		}
+
+		let parentEle, childEle, msgEle;
+		parentEle = document.createElement("div");
+		parentEle.classList.add("w-100");
+		childEle = document.createElement("kbd");
+		msgEle = document.createElement("span");
+		msgEle.innerHTML = user;
+
+		if (user == "me") {
+			msgEle.innerText = "You:";
+			childEle.classList.add("me-msg");
+			msgEle.classList.add("lb-txt");
+		} else {
+			childEle.classList.add("other-msg");
+			msgEle.style.color = "red";
+		}
+
+		childEle.appendChild(msgEle);
+		childEle.innerHTML += "<br/>" + msg;
+		parentEle.appendChild(childEle);
+		$("#chatmsgs").prepend(parentEle);
+	}
+
+	//song display area
+	let songs = JSON.parse("{{song|escapejs}}");
 
 	console.log(songs);
 	songs = songs["playlists"]["items"][0]["external_urls"]["spotify"];
 	songs = songs.split(".com");
 	songs = songs[0] + ".com/embed" + songs[1];
+
 	$("#songbox").attr("src", songs);
-
-	sio.on("intro", (data) => {
-		console.log(data);
-		sid = data["sid"];
-	});
-
-	sio.on("message", (data) => {
-		if (data["type"] == "message") {
-			if (data["sid"] != sid) {
-				var newMsg =
-					"<kbd class='text-warning'>" +
-					data["username"] +
-					": " +
-					data["message"] +
-					"</kbd>";
-				$("#chatarea").append(newMsg);
-			}
-		} else if (data["type"] == "intro") {
-			if (data["sid"] != sid) {
-				var introMsg =
-					"<kbd class='text-success'><h1>Everyone Welcome! " +
-					data["username"] +
-					"</h1></kbd>";
-			} else {
-				var introMsg =
-					"<kbd class='text-success'><h1>Welcome! " +
-					data["username"] +
-					"</h1></kbd>";
-			}
-			$("#chatarea").append(introMsg);
-		}
-	});
-
-	$("#sendmsg").on("click", function () {
-		var msg = $("#chatinput").val();
-		console.log(msg.trim());
-		if (msg.trim()) {
-			console.log(msg);
-			var introMsg = "<kbd class='text-success'>You: " + msg + "</kbd>";
-			$("#chatarea").append(introMsg);
-		}
-	});
 </script>
 {% endblock %}

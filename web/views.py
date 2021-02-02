@@ -28,7 +28,6 @@ def main(request):
 		with open('test.png', 'wb') as f:
 			f.write(res.file.read())
 		imagePath = str(BASE_DIR)+'/test.png'
-		print(imagePath)
 		emotion = image(imagePath)
 		print(emotion)
 		emotionDict = ['angry','disgust','fear','happy','sad','surprise','relax']
@@ -41,13 +40,14 @@ def main(request):
 			return render(request, 'web/main.html', {'emotion':emotion, 'username':username, 'song':dumps(song)})
 
 	return redirect('/')
+
 # 0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Relax
-# {angry:'hardstyle',disgust:'heavy-metal',fear:'soul',happy:'acoustic',sad:'groove',surprise:'anime',relax:'afrobeat'}
 
 def getsong(category):
-	songDict={'angry':'hardstyle','disgust':'heavy-metal','fear':'soul','happy':'acoustic','sad':'groove','surprise':'edm','relax':'afrobeat'}
+	songDict={'angry':'mood','disgust':'rnb','fear':'rock','happy':'wellness','sad':'anime','surprise':'edm_dance','relax':'chill'}
 	category = songDict[category]
 	url = "https://api.spotify.com/v1/browse/categories/"+str(category)+"/playlists"
-	headers = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": "Bearer "+str(os.getenv('TOKEN'))}
+	bearerToken = " ".join(["Bearer",os.getenv('SPOTIFY_TOKEN')])
+	headers = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": bearerToken}
 	response = requests.request("GET", url, headers=headers, data={})
 	return response.json()
