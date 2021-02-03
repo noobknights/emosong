@@ -1,1 +1,1 @@
-web: gunicorn emosong.wsgi
+web: uvicorn --host $PROD_HOST emosong.wsgi:application
