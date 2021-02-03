@@ -17,29 +17,32 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Create your views here.
 def index(request):
-	test = os.getenv('ENV')
-	return render(request, 'web/index.html', {'test':test})
+	return render(request, 'web/index.html')
 
 def main(request):
-	username = request.POST['username']
-	imageData = request.POST['imagedata']
-	if username != '':
-		res = urllib.request.urlopen(imageData)
-		with open('test.png', 'wb') as f:
-			f.write(res.file.read())
-		imagePath = str(BASE_DIR)+'/test.png'
-		emotion = image(imagePath)
-		print(emotion)
-		emotionDict = ['angry','disgust','fear','happy','sad','surprise','relax']
+	try:
+		username = request.POST['username']
+		imageData = request.POST['imagedata']
+		if username != '':
+			res = urllib.request.urlopen(imageData)
+			with open('test.png', 'wb') as f:
+				f.write(res.file.read())
+			imagePath = str(BASE_DIR)+'/test.png'
+			emotion = image(imagePath)
+			print(emotion)
+			emotionDict = ['angry','disgust','fear','happy','sad','surprise','relax']
 
-		if emotion == -1:
-			return redirect('/')
-		else:
-			emotion = emotionDict[emotion]
-			song = getsong(emotion)
-			return render(request, 'web/main.html', {'emotion':emotion, 'username':username, 'song':dumps(song)})
+			if emotion == -1:
+				return render(request, index(request), {'error':'Error Detecting Your Face'})
+			else:
+				emotion = emotionDict[emotion]
+				song = getsong(emotion)
+				return render(request, 'web/main.html', {'emotion':emotion, 'username':username, 'song':dumps(song)})
 
-	return redirect('/')
+		return redirect('/')
+
+	except:
+		return render(request, 'web/index.html', {'error':'Server Error, Try again later!!!'})
 
 # 0=Angry, 1=Disgust, 2=Fear, 3=Happy, 4=Sad, 5=Surprise, 6=Relax
 
@@ -51,3 +54,6 @@ def getsong(category):
 	headers = {"Accept": "application/json", "Content-Type": "application/json", "Authorization": bearerToken}
 	response = requests.request("GET", url, headers=headers, data={})
 	return response.json()
+
+
+# worker: gunicorn -k uvicorn.workers.UvicornWorker emosong.asgi

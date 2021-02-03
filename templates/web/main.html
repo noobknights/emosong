@@ -79,8 +79,12 @@
 			sio.emit("newuser", { username: userName });
 		} else if (data.type == "newuser") {
 			let newuserMsg =
-				"<div class='w-100'><h2>Welcome, " + data.data.username + "</h2></div>";
-			messageFormat(newuserMsg, "Everyone");
+				"<div class='w-100 text-left lb-txt'><h3>Everyone Welcome, " +
+				"<strong>" +
+				data.data.username +
+				"</strong></h3></div>";
+
+			$("#chatmsgs").prepend(newuserMsg);
 			console.log({ newuser: data });
 		} else if (data.type == "message") {
 			messageFormat(data.data.message, data.data.username);
@@ -89,9 +93,14 @@
 	});
 
 	$("#sendmsg").click(function () {
-		sio.emit("message", { username: userName, message: $("#chatinput").val() });
-		messageFormat($("#chatinput").val(), "me");
-		$("#chatinput").val("");
+		if ($("#chatinput").val().trim()) {
+			sio.emit("message", {
+				username: userName,
+				message: $("#chatinput").val(),
+			});
+			messageFormat($("#chatinput").val(), "me");
+			$("#chatinput").val("");
+		}
 	});
 
 	function messageFormat(msg, user) {

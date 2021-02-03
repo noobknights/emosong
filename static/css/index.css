@@ -12,6 +12,26 @@ body {
 	background-color: var(--ly);
 }
 
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: var(--ly);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--lb);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--mb);
+}
+
 .logo-font-style {
 	font-family: "Pacifico" !important;
 }
@@ -93,17 +113,37 @@ nav > a:hover {
 	overflow-y: auto;
 }
 
+.other-msg,
+.me-msg {
+	margin: 5px;
+	padding: 10px;
+	max-width: 60%;
+}
+
 .other-msg {
 	float: left;
-	margin: 5px;
-	padding: 10px;
-	max-width: 60%;
 	text-align: left;
 }
+
 .me-msg {
 	float: right;
-	margin: 5px;
-	padding: 10px;
-	max-width: 60%;
 	text-align: right;
+}
+
+.myalert {
+	border: 2px solid var(--lb);
+	color: var(--lb);
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+.myalert > span {
+	font-size: large;
+}
+
+.myalert > button {
+	font-size: 25px;
+	padding-top: 0;
+	padding-bottom: 0;
+	color: var(--lb);
 }

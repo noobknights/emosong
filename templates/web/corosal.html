@@ -1,5 +1,13 @@
 {% load static %}
 <span></span>
+<div class="container d-flex justify-content-center">
+	{% if error %}
+	<div class="myalert">
+		<span> {{error}} </span>
+		<button class="btn">&times;</button>
+	</div>
+	{% endif %}
+</div>
 {% with allemotions='disgust fear happy relax sad surprise' %}
 <div class="container d-flex justify-content-center" style="height: 350px">
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -25,4 +33,9 @@
 <br />
 <script>
 	$("#myCarousel").carousel({ interval: 500 });
+
+	$(".myalert button").click(function () {
+		console.log("alert");
+		$(".myalert").hide();
+	});
 </script>

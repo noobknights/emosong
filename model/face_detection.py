@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,26 +12,23 @@ IMG_PATH = str(BASE_DIR)+'/test.jpg'
 face_cascade = cv2.CascadeClassifier(CASPATH)
 final_model=tf.keras.models.load_model(FINALMODEL)
 
-
-
 def image(path):
-	img = cv2.imread(path)
-	faces = face_cascade.detectMultiScale(img, 1.3,5)
-	resized = 0
-	for (x,y,w,h) in faces:
-		print("X : ",x)
-		print("y" ,y)
-		print("width",w)
-		print("height",h)
-		img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-		roi = img[y:y+h, x:x+w]
-		resized = cv2.resize(roi,(48,48))   
- 
 	try:
+		img = cv2.imread(path)
+		faces = face_cascade.detectMultiScale(img, 1.3,5)
+		resized = 0
+		for (x,y,w,h) in faces:
+			# print("X : ",x)
+			# print("y" ,y)
+			# print("width",w)
+			# print("height",h)
+			img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+			roi = img[y:y+h, x:x+w]
+			resized = cv2.resize(roi,(48,48))   
+	
 		resized = resized[:, :, 1]
 		resized = resized.reshape(1,48,48,1)
 		emotion = np.argmax(final_model.predict(resized))
-		plt.imshow(resized[0,:,:,0])
 		return emotion
 	except:
 		return -1
