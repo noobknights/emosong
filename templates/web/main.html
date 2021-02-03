@@ -66,7 +66,7 @@
 	else socketUrl = "https://" + "{{chathost}}";
 
 	//chat area
-	let sio = io("http://127.0.0.1:5000/");
+	let sio = io(socketUrl);
 	let sid = "";
 
 	sio.on("connect", () => {

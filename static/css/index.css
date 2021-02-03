@@ -118,6 +118,7 @@ nav > a:hover {
 	margin: 5px;
 	padding: 10px;
 	max-width: 60%;
+	word-break: break-word;
 }
 
 .other-msg {
