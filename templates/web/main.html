@@ -61,6 +61,10 @@
 <script>
 	userName = "{{username}}";
 
+	let socketUrl;
+	if ("{{env}}" == "dev") socketUrl = "http://" + "{{chathost}}";
+	else socketUrl = "https://" + "{{chathost}}";
+
 	//chat area
 	let sio = io("http://127.0.0.1:5000/");
 	let sid = "";
@@ -87,23 +91,25 @@
 			$("#chatmsgs").prepend(newuserMsg);
 			console.log({ newuser: data });
 		} else if (data.type == "message") {
-			messageFormat(data.data.message, data.data.username);
+			messageFormat(data.data.message, data.data.username, data.data.color);
 			console.log({ newmessage: data });
 		}
 	});
 
 	$("#sendmsg").click(function () {
 		if ($("#chatinput").val().trim()) {
+			var color = "{{color}}";
 			sio.emit("message", {
 				username: userName,
 				message: $("#chatinput").val(),
+				color: color,
 			});
 			messageFormat($("#chatinput").val(), "me");
 			$("#chatinput").val("");
 		}
 	});
 
-	function messageFormat(msg, user) {
+	function messageFormat(msg, user, color) {
 		if (document.querySelector("#chatmsgs h1")) {
 			$("#chatmsgs").html("");
 		}
@@ -121,7 +127,7 @@
 			msgEle.classList.add("lb-txt");
 		} else {
 			childEle.classList.add("other-msg");
-			msgEle.style.color = "red";
+			msgEle.style.color = color;
 		}
 
 		childEle.appendChild(msgEle);

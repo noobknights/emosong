@@ -12,7 +12,7 @@ async def connect(sid, environ):
 @sio.event
 async def message(sid, data):
     print('message:', data)
-    await sio.emit('message', {'type':'message','data':{'sid':sid, 'username':data['username'], 'message':data['message']}}, skip_sid=sid)
+    await sio.emit('message', {'type':'message','data':{'sid':sid, 'username':data['username'], 'message':data['message'], 'color':data['color']}}, skip_sid=sid)
 
 @sio.event
 async def disconnect(sid):

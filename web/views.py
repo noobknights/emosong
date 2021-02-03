@@ -3,6 +3,7 @@ from django.contrib import messages
 from json import dumps
 import requests
 import os
+import random
 from pathlib import Path
 from dotenv import load_dotenv
 from model.face_detection import image
@@ -31,13 +32,14 @@ def main(request):
 			emotion = image(imagePath)
 			print(emotion)
 			emotionDict = ['angry','disgust','fear','happy','sad','surprise','relax']
-
+			colors = ['blue', 'indigo','purple','pink','red','orange','yellow','green','teal','gray']
 			if emotion == -1:
 				return render(request, index(request), {'error':'Error Detecting Your Face'})
 			else:
 				emotion = emotionDict[emotion]
 				song = getsong(emotion)
-				return render(request, 'web/main.html', {'emotion':emotion, 'username':username, 'song':dumps(song)})
+				color = random.choice(colors)
+				return render(request, 'web/main.html', {'emotion':emotion, 'username':username, 'song':dumps(song), 'env':os.getenv('APP_ENV'), 'chathost':os.getenv('SOCKET_HOST'), 'color':color})
 
 		return redirect('/')
 
