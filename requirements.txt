@@ -12,4 +12,5 @@ channels==3.0.3
 django-cors-headers==3.7.0	
 numpy==1.19.5
 opencv-python==4.5.1.48
-tensorflow==2.4.1
+# tensorflow==2.4.1
+Keras-2.4.3
