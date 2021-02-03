@@ -1,1 +1,1 @@
-web: uvicorn --host $PROD_HOST emosong.wsgi:application
+web: uvicorn emosong.wsgi:application
