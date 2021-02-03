@@ -1,8 +1,7 @@
 from pathlib import Path
 import numpy as np
 import cv2
-# import tensorflow as tf
-import keras
+import tensorflow as tf
 
 BASE_DIR = Path(__file__).resolve().parent
 CASPATH = str(BASE_DIR)+'/face_mod.xml'

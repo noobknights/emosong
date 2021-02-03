@@ -4,9 +4,8 @@ python-dotenv==0.15.0
 requests==2.22.0
 whitenoise==5.2.0
 python-socketio==5.0.4
-aiohttp==3.7.3
 uvicorn[standard]==0.13.3
 django-cors-headers==3.7.0	
 numpy==1.19.5
 opencv-python==4.5.1.48
-Keras==2.4.3
+tensorflow==2.4.1
