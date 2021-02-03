@@ -1,1 +1,1 @@
-web: uvicorn emosong.wsgi:application
+web: gunicorn emosong.wsgi
