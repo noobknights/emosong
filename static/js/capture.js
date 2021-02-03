@@ -1,13 +1,11 @@
-const { statSync } = require("fs");
-const { start } = require("repl");
-
 var isCameraAllowed = false;
+var imageData = '';
 (function () {
 	// The width and height of the captured photo. We will set the
 	// width to the value defined here, but the height will be
 	// calculated based on the aspect ratio of the input stream.
 
-	var width = 500; // We will scale the photo width to this
+	var width = 300; // We will scale the photo width to this
 	var height = 0; // This will be computed based on the input stream
 
 	// |streaming| indicates whether or not we're currently streaming
@@ -33,10 +31,8 @@ var isCameraAllowed = false;
 			.getUserMedia({ video: true, audio: false })
 			.then(function (stream) {
 				isCameraAllowed = true;
-				console.log(isCameraAllowed);
 				video.srcObject = stream;
 				video.play();
-				startbutton.click();
 			})
 			.catch(function (err) {
 				isCameraAllowed = false;
@@ -65,6 +61,8 @@ var isCameraAllowed = false;
 			},
 			false
 		);
+
+		console.log({ isCameraAllowed });
 
 		startbutton.addEventListener(
 			"click",
@@ -103,7 +101,7 @@ var isCameraAllowed = false;
 			context.drawImage(video, 0, 0, width, height);
 
 			var data = canvas.toDataURL("image/png");
-			console.log(data);
+			imageData = data
 			photo.setAttribute("src", data);
 		} else {
 			clearphoto();
@@ -114,3 +112,18 @@ var isCameraAllowed = false;
 	// once loading is complete.
 	window.addEventListener("load", startup, false);
 })();
+
+function dataURLtoFile(dataurl, filename) {
+
+	var arr = dataurl.split(','),
+		mime = arr[0].match(/:(.*?);/)[1],
+		bstr = atob(arr[1]),
+		n = bstr.length,
+		u8arr = new Uint8Array(n);
+
+	while (n--) {
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+
+	return new File([u8arr], filename, { type: mime });
+}

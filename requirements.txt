@@ -10,3 +10,6 @@ uvicorn[standard]==0.13.3
 daphne==3.0.1
 channels==3.0.3
 django-cors-headers==3.7.0	
+numpy==1.19.5
+opencv-python==4.5.1.48
+Keras==2.4.3

@@ -1,0 +1,149 @@
+{% extends 'base.html' %} {% block content %} {% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"></script>
+
+<div class="mb-5">
+	<h1 class="display-4">
+		Hey <span class="lb-txt">{{username}}</span> <br />
+		Your emotion was detected to be <br />
+		<img src="{% static 'icons/emotion/' %}{{emotion}}.svg" width="150px" />
+		<h2 class="lb-txt logo-font-style">{{emotion}}</h2>
+	</h1>
+</div>
+
+<div class="d-flex justify-content-center">
+	<div class="row w-100" style="max-width: 800px">
+		<div class="col-6 p-1">
+			<img src="{% static 'icons/song.gif' %}" height="100px" />
+			<br />
+			<h2 class="logo-font-style">Listen Some Music</h2>
+			<hr class="w-25 border border-dark mb-3" />
+		</div>
+		<div class="col-6 p-1">
+			<img src="{% static 'icons/chat.gif' %}" width="100px" />
+			<h2 class="logo-font-style">Talk to other users</h2>
+			<hr class="w-25 border border-dark" />
+		</div>
+		<div class="col-12 p-1 w-100">
+			<div id="chatmsgs" class="f25 d-flex flex-column-reverse">
+				<h1 class="logo-font-style h-50">
+					Welcome to emosong :) <br />
+					Send some message.
+				</h1>
+			</div>
+			<div class="d-flex">
+				<input
+					type="text"
+					class="p-2 f25 w-100"
+					name="chatinput"
+					placeholder="Enter Message"
+					id="chatinput"
+				/>
+				<button id="sendmsg" class="btn btn-lg p-0 ml-1">
+					<img src="{% static 'icons/send.svg' %}" height="50px" />
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div>
+	<!-- <iframe
+		src="https://open.spotify.com/embed/playlist/37i9dQZF1DXaXB8fQg7xif"
+		width="100%"
+		style="height: 100%"
+		frameborder="0"
+		allowtransparency="true"
+		allow="encrypted-media"
+		id="songbox"
+	></iframe> -->
+</div>
+
+<script>
+	userName = "{{username}}";
+
+	let socketUrl;
+	if ("{{env}}" == "dev") socketUrl = "http://" + "{{chathost}}";
+	else socketUrl = "https://" + "{{chathost}}";
+
+	//chat area
+	let sio = io(socketUrl);
+	let sid = "";
+
+	sio.on("connect", () => {
+		console.log("connected");
+	});
+
+	sio.on("disconnect", () => {
+		console.log("disconnected");
+	});
+
+	sio.on("message", (data) => {
+		if (data.type == "me") {
+			console.log({ me: data });
+			sio.emit("newuser", { username: userName });
+		} else if (data.type == "newuser") {
+			let newuserMsg =
+				"<div class='w-100 text-left lb-txt'><h3>Everyone Welcome, " +
+				"<strong>" +
+				data.data.username +
+				"</strong></h3></div>";
+
+			$("#chatmsgs").prepend(newuserMsg);
+			console.log({ newuser: data });
+		} else if (data.type == "message") {
+			messageFormat(data.data.message, data.data.username, data.data.color);
+			console.log({ newmessage: data });
+		}
+	});
+
+	$("#sendmsg").click(function () {
+		if ($("#chatinput").val().trim()) {
+			var color = "{{color}}";
+			sio.emit("message", {
+				username: userName,
+				message: $("#chatinput").val(),
+				color: color,
+			});
+			messageFormat($("#chatinput").val(), "me");
+			$("#chatinput").val("");
+		}
+	});
+
+	function messageFormat(msg, user, color) {
+		if (document.querySelector("#chatmsgs h1")) {
+			$("#chatmsgs").html("");
+		}
+
+		let parentEle, childEle, msgEle;
+		parentEle = document.createElement("div");
+		parentEle.classList.add("w-100");
+		childEle = document.createElement("kbd");
+		msgEle = document.createElement("span");
+		msgEle.innerHTML = user;
+
+		if (user == "me") {
+			msgEle.innerText = "You:";
+			childEle.classList.add("me-msg");
+			msgEle.classList.add("lb-txt");
+		} else {
+			childEle.classList.add("other-msg");
+			msgEle.style.color = color;
+		}
+
+		childEle.appendChild(msgEle);
+		childEle.innerHTML += "<br/>" + msg;
+		parentEle.appendChild(childEle);
+		$("#chatmsgs").prepend(parentEle);
+	}
+
+	//song display area
+	let songs = JSON.parse("{{song|escapejs}}");
+
+	console.log(songs);
+	songs = songs["playlists"]["items"][0]["external_urls"]["spotify"];
+	songs = songs.split(".com");
+	songs = songs[0] + ".com/embed" + songs[1];
+
+	$("#songbox").attr("src", songs);
+</script>
+{% endblock %}

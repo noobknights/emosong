@@ -1,14 +1,35 @@
 :root {
 	--lb: #03a9f4;
+	--lbd: #0081bb;
 	--ly: #ffff66;
 	--llb: #4fc3f7;
 	--mb: #3b3e3f;
+	--mbo: #0000008a;
 }
 
 html,
 body {
-	height: 100%;
 	background-color: var(--ly);
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: var(--ly);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--lb);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--mb);
 }
 
 .logo-font-style {
@@ -17,4 +38,113 @@ body {
 
 .hide {
 	display: none !important;
+}
+
+.ly-bg {
+	background-color: var(--ly) !important;
+}
+
+.mb-txt {
+	color: var(--mb) !important;
+}
+.lb-txt {
+	color: var(--lb) !important;
+}
+
+#username {
+	font-size: 40px;
+	max-width: 500px;
+	border: 1px solid var(--lb);
+}
+
+#start {
+	font-size: 40px;
+	border: 1px solid var(--lb);
+	color: var(--lb);
+}
+#start:hover {
+	transition: ease-in-out;
+	background-color: var(--lb);
+	color: var(--ly);
+}
+
+.f25 {
+	font-size: 25px;
+}
+
+footer {
+	color: var(--mbo) !important;
+}
+
+.footer-link {
+	color: var(--mbo) !important;
+}
+
+.footer-link:hover {
+	color: var(--mb) !important;
+}
+
+.footer-link:active,
+.footer-link:visited {
+	color: none;
+}
+
+nav {
+	position: fixed !important;
+	z-index: 1;
+}
+
+nav > a:hover {
+	color: var(--lbd) !important;
+	transition: ease-in-out;
+}
+
+#sendmsg:hover {
+	transform: scale(0.9);
+	transition: 0.25s;
+}
+#sendmsg {
+	transition: 0.25s;
+}
+
+#chatmsgs {
+	height: 77vh;
+	max-height: 77vh;
+	overflow-y: auto;
+}
+
+.other-msg,
+.me-msg {
+	margin: 5px;
+	padding: 10px;
+	max-width: 60%;
+	word-break: break-word;
+}
+
+.other-msg {
+	float: left;
+	text-align: left;
+}
+
+.me-msg {
+	float: right;
+	text-align: right;
+}
+
+.myalert {
+	border: 2px solid var(--lb);
+	color: var(--lb);
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+.myalert > span {
+	font-size: large;
+}
+
+.myalert > button {
+	font-size: 25px;
+	padding-top: 0;
+	padding-bottom: 0;
+	color: var(--lb);
 }
