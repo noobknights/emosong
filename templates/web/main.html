@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="display-4">
+	Hey <span class="lb-txt">{{username}}</span> <br />
+	Wanna Listen Some... {{emotion}}
+</h1>
+<div class="row d-flex">
+	<div class="vh-100 col-md-6 col-12 p-1">
+		<iframe
+			src="https://open.spotify.com/embed/playlist/37i9dQZF1DXaXB8fQg7xif"
+			width="100%"
+			style="height: 100%"
+			frameborder="0"
+			allowtransparency="true"
+			allow="encrypted-media"
+			id="songbox"
+		></iframe>
+	</div>
+	<div class="col-md-6 col-12 p-1 d-flex flex-column vh-100">
+		<div
+			class="w-100 h-100 d-flex flex-column text-left"
+			style="overflow-y: scroll"
+			id="chatarea"
+		></div>
+		<div class="d-flex">
+			<input
+				type="text"
+				class="form-control form-control-lg"
+				placeholder="Enter Message"
+				name="chatinput"
+				id="chatinput"
+			/>
+			<button id="sendmsg" class="btn btn-light btn-lg">Send</button>
+		</div>
+	</div>
+</div>
+<script>
+	var songs = JSON.parse("{{song|escapejs}}");
+	userName = "{{username}}";
+	var sid = "";
+	var toAppend =
+		"<kbd class='text-success'><h1>Welcome! " + userName + "</h1></kbd>";
+	console.log(songs);
+	songs = songs["playlists"]["items"][0]["external_urls"]["spotify"];
+	songs = songs.split(".com");
+	songs = songs[0] + ".com/embed" + songs[1];
+	$("#songbox").attr("src", songs);
+
+	$("#sendmsg").click(function () {
+		var msg = $("#chatinput").val();
+		if (msg.trim()) {
+			sio.emit("message", { type: "message", data: msg, sid: sid });
+		}
+	});
+</script>
+{% endblock %}
