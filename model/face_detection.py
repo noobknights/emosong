@@ -10,13 +10,8 @@ CASPATH = str(BASE_DIR)+'/face_mod.xml'
 FINALMODEL = str(BASE_DIR)+'/final_model'
 IMG_PATH = str(BASE_DIR)+'/test.jpg'
 
-<<<<<<< HEAD
 face_cascade = cv2.CascadeClassifier('face_mod.xml')
 final_model=tf.keras.models.load_model("Aug_Model")
-=======
-face_cascade = cv2.CascadeClassifier(CASPATH)
-final_model=tf.keras.models.load_model(FINALMODEL)
->>>>>>> 00dd6adb2c87445d56dc464d805e4cbd35dfcf91
 
 
 
