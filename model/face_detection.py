@@ -8,7 +8,7 @@ import numpy as np
 
 
 face_cascade = cv2.CascadeClassifier('face_mod.xml')
-final_model=tf.keras.models.load_model("final_model")
+final_model=tf.keras.models.load_model("Aug_Model")
 
 
 
