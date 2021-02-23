@@ -12,9 +12,11 @@ CASPATH = str(BASE_DIR)+'/face_mod.xml'
 FINALMODEL = str(BASE_DIR)+'/final_model'
 IMG_PATH = str(BASE_DIR)+'/test.jpg'
 
-
 face_cascade = cv2.CascadeClassifier('face_mod.xml')
 final_model=tf.keras.models.load_model("Aug_Model")
+
+
+
 def image(path):
 	try:
 		img = cv2.imread(path)
