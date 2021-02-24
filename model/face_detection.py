@@ -1,6 +1,7 @@
 from pathlib import Path
 import numpy as np
 import cv2
+import keras
 import tensorflow as tf
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -17,10 +18,6 @@ def image(path):
 		faces = face_cascade.detectMultiScale(img, 1.3,5)
 		resized = 0
 		for (x,y,w,h) in faces:
-			# print("X : ",x)
-			# print("y" ,y)
-			# print("width",w)
-			# print("height",h)
 			img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
 			roi = img[y:y+h, x:x+w]
 			resized = cv2.resize(roi,(48,48))   
