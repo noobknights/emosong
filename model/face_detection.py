@@ -2,14 +2,20 @@ from pathlib import Path
 import numpy as np
 import cv2
 import tensorflow as tf
+import numpy as np
+
+
+
 
 BASE_DIR = Path(__file__).resolve().parent
 CASPATH = str(BASE_DIR)+'/face_mod.xml'
 FINALMODEL = str(BASE_DIR)+'/final_model'
 IMG_PATH = str(BASE_DIR)+'/test.jpg'
 
-face_cascade = cv2.CascadeClassifier(CASPATH)
-final_model = keras.models.load_model(FINALMODEL)
+face_cascade = cv2.CascadeClassifier('face_mod.xml')
+final_model=tf.keras.models.load_model("Aug_Model")
+
+
 
 def image(path):
 	try:
