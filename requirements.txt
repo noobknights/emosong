@@ -4,7 +4,7 @@ python-dotenv==0.15.0
 requests==2.22.0
 whitenoise==5.2.0
 python-socketio==5.0.4
-eventlet==0.30.0
+eventlet==0.31.0
 aiohttp==3.7.4
 uvicorn[standard]==0.13.3
 daphne==3.0.1
